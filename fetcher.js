@@ -5,17 +5,22 @@ const fetcher = function(path, file) {
 
   request(path, (error, response, body) => {
 
-    if(error) {
-      console.log('error', error);
+    if (error) {
+      console.log('error:', error);
+      return;
+    }
+
+    if (response && response.statusCode !== 200) {
+      console.log('statusCode:', response.statusCode);
       return;
     }
     
     fs.writeFile(file, body, error => {
-      if(error) {
+      if (error) {
         console.log('Failed to write to file.');
         return;
       }
-    })
+    });
 
     const size = body.length;
     console.log(`Downloaded and saved ${size} bytes to ${file}`);
